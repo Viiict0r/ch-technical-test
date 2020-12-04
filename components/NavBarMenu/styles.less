@@ -1,0 +1,38 @@
+@import '../../styles/global.less';
+
+.navbarmenu__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 5px;
+
+  .navbarmenu__profile {
+    display: flex;
+    align-items: center;
+
+    &-user {
+      margin-left: 15px;
+      display: flex;
+      align-items: center;
+
+      p {
+        font-size: 14px;
+        margin: 0;
+        line-height: 12px;
+        margin-left: 10px;
+      }
+    }
+
+    svg {
+      cursor: pointer;
+    }
+  }
+
+  .navbarmenu__logo {
+    strong {
+      font-size: 20px;
+      color: @app-second-color;
+      cursor: pointer;
+    }
+  }
+}
