@@ -16,7 +16,9 @@ export default class AppDocument extends Document {
           <meta name="theme-color" content="#151515" />
         </Head>
         <body>
-          <Main />
+          <div className="container">
+            <Main />
+          </div>
           <NextScript />
         </body>
       </Html>

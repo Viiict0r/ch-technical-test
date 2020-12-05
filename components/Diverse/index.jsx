@@ -1,16 +1,12 @@
 import React, { useCallback } from 'react';
-import { Row, Col, Button } from 'antd';
+import { Row, Col, Spin } from 'antd';
 import MovieCard from '../MovieCard';
 
 import './styles.less';
 
-function Trending({ data }) {
+function Diverse({ data, loading }) {
   const buildCards = useCallback(() => {
-    return data?.map((movie, index) => {
-      if (index > 5) {
-        return null;
-      }
-
+    return data?.map(movie => {
       return (
         <Col span={4} key={movie.id}>
           <MovieCard
@@ -25,16 +21,18 @@ function Trending({ data }) {
   }, [data]);
 
   return (
-    <div className="trending__container">
-      <h2>Animes populares</h2>
-      <div className="trending__container-trends">
-        <Row gutter={16}>{buildCards()}</Row>
-        <div className="trending__container-viewmore">
-          <Button type="link">Ver mais</Button>
-        </div>
+    <div className="diverse">
+      <h2>Animes diversos</h2>
+      <div className="diverse__movies">
+        <Row gutter={[16, 16]}>{buildCards()}</Row>
       </div>
+      {loading && (
+        <div className="diverse__loading">
+          <Spin />
+        </div>
+      )}
     </div>
   );
 }
 
-export default Trending;
+export default Diverse;
