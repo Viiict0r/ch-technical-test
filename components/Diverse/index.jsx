@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Row, Col, Spin } from 'antd';
+import { Row, Col, Spin, Divider } from 'antd';
 import MovieCard from '../MovieCard';
 
 import './styles.less';
@@ -8,7 +8,13 @@ function Diverse({ data, loading }) {
   const buildCards = useCallback(() => {
     return data?.map(movie => {
       return (
-        <Col span={4} key={movie.id}>
+        <Col
+          xs={{ span: 12 }}
+          sm={{ span: 12 }}
+          md={{ span: 8 }}
+          lg={{ span: 4 }}
+          key={movie.id}
+        >
           <MovieCard
             title={movie.attributes.canonicalTitle}
             slug={movie.attributes.slug}
@@ -23,7 +29,9 @@ function Diverse({ data, loading }) {
 
   return (
     <div className="diverse">
-      <h2>Animes diversos</h2>
+      <Divider orientation="left">
+        <h2>Animes diversos</h2>
+      </Divider>
       <div className="diverse__movies">
         <Row gutter={[16, 16]}>{buildCards()}</Row>
       </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Avatar } from 'antd';
-import { FiBell } from 'react-icons/fi';
+import { FiBell, FiHeart } from 'react-icons/fi';
 
 import './styles.less';
 
@@ -17,7 +17,8 @@ function NavBarMenu() {
           </Link>
         </div>
         <div className="navbarmenu__profile">
-          <FiBell size={18} color="#fff" />
+          <FiHeart size={21} color="#fff" />
+          <FiBell size={21} color="#fff" />
           <div className="navbarmenu__profile-user">
             <Avatar
               size="default"

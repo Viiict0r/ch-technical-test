@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Row, Col, Button } from 'antd';
+import { Row, Col, Divider } from 'antd';
 import MovieCard from '../MovieCard';
 
 import './styles.less';
@@ -12,7 +12,13 @@ function Trending({ data }) {
       }
 
       return (
-        <Col span={4} key={movie.id}>
+        <Col
+          xs={{ span: 12 }}
+          sm={{ span: 12 }}
+          md={{ span: 8 }}
+          lg={{ span: 4 }}
+          key={movie.id}
+        >
           <MovieCard
             title={movie.attributes.canonicalTitle}
             poster={movie.attributes.posterImage.medium}
@@ -27,12 +33,11 @@ function Trending({ data }) {
 
   return (
     <div className="trending__container">
-      <h2>Animes populares</h2>
+      <Divider orientation="left">
+        <h2>Animes populares</h2>
+      </Divider>
       <div className="trending__container-trends">
-        <Row gutter={16}>{buildCards()}</Row>
-        <div className="trending__container-viewmore">
-          <Button type="link">Ver mais</Button>
-        </div>
+        <Row gutter={[16, 16]}>{buildCards()}</Row>
       </div>
     </div>
   );
