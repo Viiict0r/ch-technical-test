@@ -6,6 +6,7 @@ import { AiFillStar } from 'react-icons/ai';
 
 import { getBySlug } from '../../lib/animes';
 import NavBarMenu from '../../components/NavBarMenu';
+import Loading from '../../components/Loading';
 
 import '../../styles/pages/anime.less';
 
@@ -68,6 +69,17 @@ export default function Anime({ animeData, categories }) {
 
     return `${month} de ${dt.getFullYear()}`;
   }, []);
+
+  if (router.isFallback) {
+    return (
+      <>
+        <Head>
+          <title>Animeflix</title>
+        </Head>
+        <Loading />
+      </>
+    );
+  }
 
   return (
     <div className="anime">
