@@ -3,12 +3,13 @@ import React, { useState, useCallback } from 'react';
 import Head from 'next/head';
 
 import { getDiverse, getTrending } from '../lib/animes';
+import useInifiniteScroll from '../hooks/InfiniteScroll';
 
 import Trending from '../components/Trending';
 import Diverse from '../components/Diverse';
 import NavBarMenu from '../components/NavBarMenu';
 
-import useInifiniteScroll from '../hooks/InfiniteScroll';
+import '../styles/pages/home.less';
 
 export default function Home({ trending, diverse }) {
   const [diverseData, setDiverseData] = useState(diverse);

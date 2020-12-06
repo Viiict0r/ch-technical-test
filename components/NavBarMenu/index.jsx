@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { Avatar } from 'antd';
 import { FiBell } from 'react-icons/fi';
 
@@ -9,7 +10,9 @@ function NavBarMenu() {
     <div className="container">
       <div className="navbarmenu__container">
         <div className="navbarmenu__logo">
-          <strong>ANIMEFLIX</strong>
+          <Link href="/">
+            <strong>ANIMEFLIX</strong>
+          </Link>
         </div>
         <div className="navbarmenu__profile">
           <FiBell size={18} color="#fff" />

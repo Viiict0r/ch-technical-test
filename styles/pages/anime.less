@@ -1,0 +1,121 @@
+.anime {
+  &__banner {
+    max-height: 350px;
+    min-height: 350px;
+    background-color: rgba(255, 255, 255, .3);
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+    }
+
+    &-layer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+  }
+
+  .anime__content {
+    &-poster {
+      padding: 0px 25px;
+
+      &__img {
+        max-width: 250px;
+        margin: 0 auto;
+        text-align: center;
+        margin-top: -130px;
+        border-radius: 5px;
+        overflow: hidden;
+        background-color: rgba(255, 255, 255, .1);
+        min-height: 340px;
+
+        img {
+          max-width: 250px;
+        }
+      }
+    }
+    &-details {
+      position: relative;
+      padding-right: 20px;
+
+      &__categories {
+        padding: 5px 0px;
+      }
+
+      &__desc {
+        margin-top: 8px;
+
+        strong {
+          font-size: 20px;
+        }
+
+        &-synopsis {
+          margin-top: 8px;
+
+          p {
+            font-size: 14px;
+          }
+
+          button {
+            padding: 0;
+          }
+        }
+      }
+
+      &__title {
+        margin-top: -80px;
+        position: absolute;
+
+        strong {
+          font-size: 26px;
+          line-height: 22px;
+        }
+
+        &-rating {
+          display: flex;
+          align-items: center;
+
+          svg {
+            color: gold;
+            margin-right: 3px;
+          }
+        }
+      }
+
+      &__trailer {
+        margin-top: 22px;
+
+        strong {
+          font-size: 20px;
+        }
+
+        iframe {
+          background-color: rgba(255, 255, 255, .1);
+          margin-top: 10px;
+          width: 100%;
+          min-height: 360px;
+          margin-bottom: 25px;
+        }
+      }
+    }
+    &-others {
+      padding: 10px 25px;
+      margin-top: 20px;
+      border-left: 1px solid rgba(255, 255, 255, .1);
+
+      strong {
+        font-size: 20px;
+      }
+
+      &__info {
+        margin-top: 15px;
+      }
+    }
+  }
+}

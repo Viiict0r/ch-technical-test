@@ -11,6 +11,7 @@ function Diverse({ data, loading }) {
         <Col span={4} key={movie.id}>
           <MovieCard
             title={movie.attributes.canonicalTitle}
+            slug={movie.attributes.slug}
             poster={movie.attributes.posterImage.medium}
             rating={movie.attributes.averageRating}
             ranking={movie.attributes.popularityRank}

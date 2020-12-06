@@ -18,6 +18,7 @@ function Trending({ data }) {
             poster={movie.attributes.posterImage.medium}
             rating={movie.attributes.averageRating}
             ranking={movie.attributes.popularityRank}
+            slug={movie.attributes.slug}
           />
         </Col>
       );
