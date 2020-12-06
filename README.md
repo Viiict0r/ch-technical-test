@@ -34,7 +34,7 @@ Após executar, você pode acessá-lo em: http://localhost:3000
 
 ## Deploy
 
-O deploy do projeto foi feito utilizando a [Vercel](https://vercel.com), e pode ser acessado [por aqui](ch-technical-test.viiict0r.vercel.app).
+O deploy do projeto foi feito utilizando a [Vercel](https://vercel.com), e pode ser acessado [por aqui](https://ch-technical-test.viiict0r.vercel.app).
 
 <br>
 
