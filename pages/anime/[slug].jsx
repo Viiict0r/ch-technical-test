@@ -161,7 +161,7 @@ export default function Anime({ animeData, categories }) {
       </div>
       <div className="anime__content">
         <Row gutter={0}>
-          <Col span={6}>
+          <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 6 }}>
             <div className="anime__content-poster">
               <div className="anime__content-poster__img">
                 <Image
@@ -171,7 +171,7 @@ export default function Anime({ animeData, categories }) {
               </div>
             </div>
           </Col>
-          <Col span={12}>
+          <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 12 }}>
             <div className="anime__content-details">
               <div className="anime__content-details__title">
                 <strong>{animeData?.attributes.canonicalTitle}</strong>
@@ -215,7 +215,12 @@ export default function Anime({ animeData, categories }) {
                 <TabPane tab="Episódios" key="2">
                   <Row gutter={[8, 8]}>
                     {episodes?.data?.map(episode => (
-                      <Col span={8} key={episode.id}>
+                      <Col
+                        xs={{ span: 12 }}
+                        sm={{ span: 12 }}
+                        md={{ span: 8 }}
+                        key={episode.id}
+                      >
                         <EpisodeCard
                           thumbnail={
                             episode.attributes.thumbnail?.original ||
@@ -236,7 +241,7 @@ export default function Anime({ animeData, categories }) {
               </Tabs>
             </div>
           </Col>
-          <Col span={6}>
+          <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 6 }}>
             <div className="anime__content-others">
               <strong>Informações</strong>
               <div className="anime__content-others__info">
