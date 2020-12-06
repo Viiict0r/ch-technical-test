@@ -1,13 +1,17 @@
+/* eslint-disable no-console */
 import React, { useCallback, useState } from 'react';
 import Head from 'next/head';
 import NextImage from 'next/image';
 import { useRouter } from 'next/router';
-import { Row, Col, Image, Tabs, Button, Tag } from 'antd';
+import { Row, Col, Image, Tabs, Button, Tag, Modal, Spin } from 'antd';
 import { AiFillStar } from 'react-icons/ai';
 
-import { getBySlug } from '../../lib/animes';
+import { getBySlug, getEpisodes, getNextEpisodes } from '../../lib/animes';
 import NavBarMenu from '../../components/NavBarMenu';
 import Loading from '../../components/Loading';
+import EpisodeCard from '../../components/EpisodeCard';
+
+import useInifiniteScroll from '../../hooks/InfiniteScroll';
 
 import '../../styles/pages/anime.less';
 
@@ -15,6 +19,10 @@ const { TabPane } = Tabs;
 
 export default function Anime({ animeData, categories }) {
   const [isSynopsisExpanded, setSynopsisExpanded] = useState(false);
+  const [episodes, setEpisodes] = useState(null);
+  const [activeTab, setActiveTab] = useState('1');
+  const [fetching, setFetching] = useInifiniteScroll(() => fetchMoreEpisodes());
+
   const router = useRouter();
 
   const buildSynopsis = useCallback(
@@ -23,15 +31,8 @@ export default function Anime({ animeData, categories }) {
         const partText = String(synopsis).slice(0, 400);
 
         return (
-          <div>
-            {isSynopsisExpanded ? (
-              <p>{synopsis}</p>
-            ) : (
-              <p>
-                {partText}
-                <span>...</span>
-              </p>
-            )}
+          <>
+            <p>{isSynopsisExpanded ? `${synopsis}` : `${partText}...`}</p>
 
             <Button
               type="link"
@@ -39,7 +40,7 @@ export default function Anime({ animeData, categories }) {
             >
               {isSynopsisExpanded ? 'Ver menos' : 'Ver mais'}
             </Button>
-          </div>
+          </>
         );
       }
       return <p>{synopsis}</p>;
@@ -70,6 +71,60 @@ export default function Anime({ animeData, categories }) {
 
     return `${month} de ${dt.getFullYear()}`;
   }, []);
+
+  const fetchMoreEpisodes = useCallback(async () => {
+    try {
+      if (activeTab !== '2') {
+        setFetching(false);
+        return;
+      }
+
+      if (!episodes) {
+        setFetching(false);
+        return;
+      }
+
+      if (!episodes?.links?.next && episodes !== null) {
+        setFetching(false);
+        return;
+      }
+
+      const response = await getNextEpisodes(episodes.links.next);
+
+      setEpisodes(oldData => ({
+        data: [...oldData.data, ...response.data],
+        links: response.links,
+      }));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setFetching(false);
+    }
+  }, [activeTab, episodes]);
+
+  const handleTabChange = useCallback(
+    async key => {
+      setActiveTab(key);
+
+      if (key === '2') {
+        if (episodes || !animeData) return;
+
+        try {
+          const response = await getEpisodes(animeData.id);
+
+          setEpisodes(response);
+        } catch (error) {
+          console.log(error);
+
+          Modal.error({
+            title: 'Erro',
+            content: 'Ocorreu um erro ao carregar os episódios.',
+          });
+        }
+      }
+    },
+    [episodes, animeData]
+  );
 
   if (router.isFallback) {
     return (
@@ -129,7 +184,7 @@ export default function Anime({ animeData, categories }) {
                   )}
                 </div>
               </div>
-              <Tabs>
+              <Tabs onChange={handleTabChange}>
                 <TabPane tab="Resumo" key="1">
                   <div className="anime__content-details__categories">
                     {categories?.map(data => (
@@ -158,7 +213,25 @@ export default function Anime({ animeData, categories }) {
                   )}
                 </TabPane>
                 <TabPane tab="Episódios" key="2">
-                  teste
+                  <Row gutter={[8, 8]}>
+                    {episodes?.data?.map(episode => (
+                      <Col span={8} key={episode.id}>
+                        <EpisodeCard
+                          thumbnail={
+                            episode.attributes.thumbnail?.original ||
+                            animeData?.attributes?.coverImage?.small
+                          }
+                          title={episode.attributes.canonicalTitle}
+                          number={episode.attributes.number}
+                        />
+                      </Col>
+                    ))}
+                  </Row>
+                  {(!episodes || fetching) && (
+                    <div className="anime__content-episode__loading">
+                      <Spin />
+                    </div>
+                  )}
                 </TabPane>
               </Tabs>
             </div>
