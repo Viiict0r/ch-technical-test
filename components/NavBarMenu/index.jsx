@@ -10,8 +10,10 @@ function NavBarMenu() {
     <div className="container">
       <div className="navbarmenu__container">
         <div className="navbarmenu__logo">
-          <Link href="/">
-            <strong>ANIMEFLIX</strong>
+          <Link href="/" prefetch={false}>
+            <a>
+              <strong>ANIMEFLIX</strong>
+            </a>
           </Link>
         </div>
         <div className="navbarmenu__profile">

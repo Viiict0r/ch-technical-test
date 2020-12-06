@@ -11,6 +11,9 @@ if (typeof require !== 'undefined') {
 }
 
 module.exports = {
+  images: {
+    domains: ['media.kitsu.io']
+  },
   ...withImages({ esModule: true }),
   ...withCSS({
     cssModules: true,

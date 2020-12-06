@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import Head from 'next/head';
+import NextImage from 'next/image';
 import { useRouter } from 'next/router';
 import { Row, Col, Image, Tabs, Button, Tag } from 'antd';
 import { AiFillStar } from 'react-icons/ai';
@@ -95,8 +96,12 @@ export default function Anime({ animeData, categories }) {
 
       <div className="anime__banner">
         <div className="anime__banner-layer" />
-        {!router.isFallback && animeData && (
-          <img src={animeData?.attributes.coverImage.small} alt="Banner" />
+        {!router.isFallback && animeData?.attributes?.coverImage?.small && (
+          <NextImage
+            src={animeData?.attributes?.coverImage?.small}
+            alt="Banner"
+            layout="fill"
+          />
         )}
       </div>
       <div className="anime__content">
@@ -106,7 +111,7 @@ export default function Anime({ animeData, categories }) {
               <div className="anime__content-poster__img">
                 <Image
                   preview={false}
-                  src={animeData?.attributes.posterImage.small}
+                  src={animeData?.attributes?.posterImage?.small}
                 />
               </div>
             </div>
@@ -118,7 +123,7 @@ export default function Anime({ animeData, categories }) {
                 <div className="anime__content-details__title-rating">
                   {!router.isFallback && (
                     <>
-                      <AiFillStar /> {animeData?.attributes.averageRating}% de
+                      <AiFillStar /> {animeData?.attributes?.averageRating}% de
                       aprovação
                     </>
                   )}
@@ -128,7 +133,7 @@ export default function Anime({ animeData, categories }) {
                 <TabPane tab="Resumo" key="1">
                   <div className="anime__content-details__categories">
                     {categories?.map(data => (
-                      <Tag color="rgba(255, 255, 255, .1)">
+                      <Tag color="rgba(255, 255, 255, .1)" key={data.id}>
                         {data.attributes.title}
                       </Tag>
                     ))}
@@ -136,7 +141,7 @@ export default function Anime({ animeData, categories }) {
                   <div className="anime__content-details__desc">
                     <strong>Sinopse</strong>
                     <div className="anime__content-details__desc-synopsis">
-                      {buildSynopsis(animeData?.attributes.synopsis)}
+                      {buildSynopsis(animeData?.attributes?.synopsis)}
                     </div>
                   </div>
                   {animeData?.attributes.youtubeVideoId && (
@@ -225,21 +230,27 @@ export const getStaticPaths = () => {
 };
 
 export const getStaticProps = async context => {
-  const { slug } = context.params;
+  try {
+    const { slug } = context.params;
 
-  const response = await getBySlug(slug);
+    const response = await getBySlug(slug);
 
-  if (!response || response.data.length === 0) {
+    if (!response || response.data.length === 0) {
+      return {
+        notFound: true,
+      };
+    }
+
+    return {
+      props: {
+        animeData: response.data[0],
+        categories: response.included,
+      },
+      revalidate: 10 * 60,
+    };
+  } catch (error) {
     return {
       notFound: true,
     };
   }
-
-  return {
-    props: {
-      animeData: response.data[0],
-      categories: response.included,
-    },
-    revalidate: 60 * 10,
-  };
 };
